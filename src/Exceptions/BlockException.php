@@ -23,7 +23,7 @@ final class BlockException extends InvalidArgumentException
     }
 
     /**
-     * @param mixed $template
+     * @param string|string[] $template
      *
      * @return BlockException
      */

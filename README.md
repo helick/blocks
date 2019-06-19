@@ -24,6 +24,79 @@ $ composer require helick/blocks
 
 ## Usage
 
+Within your theme declare your block, attach its fields, and provide data for your template:
+
+``` php
+use Carbon_Fields\Field;
+use Helick\Blocks\Block;
+
+final class ExampleBlock extends Block
+{
+    /**
+     * The block's display name.
+     *
+     * @var string
+     */
+    protected $name = 'Example';
+
+    /**
+     * The block's description.
+     *
+     * @var string
+     */
+    protected $description = 'This is an example block';
+
+    /**
+     * The block's template.
+     *
+     * @var string|string[]
+     */
+    protected $template = 'partials/blocks/example.php';
+
+    /**
+     * Fields to be attached to the block.
+     *
+     * @return array
+     */
+    public function fields(): array
+    {
+        return [
+            Field::make('text', 'heading', 'Heading'),
+            Field::make('image', 'image', 'Image'),
+            Field::make('rich_text', 'content', 'Content'),
+        ];
+    }
+}
+```
+
+Create your block template:
+
+``` php
+<div class="block">
+    <div class="block__heading">
+        <h1><?php echo esc_html($fields['heading']); ?></h1>
+    </div>
+
+    <div class="block__image">
+        <?php echo wp_get_attachment_image($fields['image'], 'full'); ?>
+    </div>
+
+    <div class="block__content">
+        <?php echo apply_filters('the_content', $fields['content']); ?>
+    </div>
+</div>
+```
+
+Finally, register your block in theme's `functions.php`:
+
+``` php
+add_filter('', function (array $blocks) {
+    $blocks[] = ExampleBlock::class;
+
+    return $blocks;
+});
+```
+
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) and [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) for details.

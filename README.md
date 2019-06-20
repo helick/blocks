@@ -76,11 +76,9 @@ Create your block template:
     <div class="block__heading">
         <h1><?php echo esc_html($fields['heading']); ?></h1>
     </div>
-
     <div class="block__image">
         <?php echo wp_get_attachment_image($fields['image'], 'full'); ?>
     </div>
-
     <div class="block__content">
         <?php echo apply_filters('the_content', $fields['content']); ?>
     </div>
@@ -99,7 +97,7 @@ add_filter('helick_blocks', function (array $blocks) {
 
 ## Caching
 
-The easiest and probably the best method is to cache the *complete HTML output*, and PHP's output buffering functions will help us implement that without moving too much code around:
+The easiest and probably the best method is to cache the **complete HTML output**, and PHP's output buffering functions will help us implement that without moving too much code around:
 
 ``` php
 use Carbon_Fields\Field;
@@ -154,11 +152,24 @@ final class ExampleBlock extends Block
         }
 
         echo $output;
+        echo "<!-- Cache Key: {$cacheKey} -->";
     }
 }
 ```
 
 With this way we're only storing the actual output in our cache, no posts, no metadata, no terms. Just the HTML.
+
+You can also inspect your cache by using [WP CLI](https://wp-cli.org/):
+
+``` bash
+# Get the block's output from the object cache
+$ wp cache get example_block_098f6bcd4621d373cade4e832627b4f6 blocks
+...your block's output...
+
+# Remove the block's output from the object cache
+$ wp cache delete example_block_098f6bcd4621d373cade4e832627b4f6 blocks
+Success: Object deleted.
+```
 
 ## Contributing
 

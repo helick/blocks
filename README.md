@@ -97,6 +97,69 @@ add_filter('helick_blocks', function (array $blocks) {
 });
 ```
 
+## Caching
+
+The easiest and probably the best method is to cache the *complete HTML output*, and PHP's output buffering functions will help us implement that without moving too much code around:
+
+``` php
+use Carbon_Fields\Field;
+use Helick\Blocks\Block;
+
+final class ExampleBlock extends Block
+{
+    // Your block declaration goes in here ...
+
+    /**
+     * Render the block.
+     *
+     * @param array $fields
+     * @param array $attributes
+     * @param array $blocks
+     *
+     * @return void
+     *
+     * @throws Exception
+     */
+    public function render(array $fields, array $attributes, array $blocks): void
+    {
+        // Compose the render arguments
+        $args = compact('fields', 'attributes', 'blocks');
+
+        // Generate cache key based on the given arguments
+        $cacheKey   = sprintf('example_block_%s', hash('md5', wp_json_encode($args)));
+        $cacheGroup = 'blocks';
+
+        // Check whether we have the block's cached output
+        $output = wp_cache_get($cacheKey, $cacheGroup);
+
+        // If nothing is found, catch the block render output
+        if (false === $output) {
+            ob_start();
+
+            // If someting goes wrong during the render,
+            // we clear the output and re-throw an exception
+            // so we don't cache the actual error output.
+            try {
+                parent::render($fields, $attributes, $blocks);
+            } catch (Exception $e) {
+                ob_end_clean();
+
+                throw $e;
+            }
+
+            $output = ob_get_clean();
+
+            // Cache the block's output for 5 minutes (300 secs)
+            wp_cache_set($cacheKey, $output, $cacheGroup, 5 * MINUTE_IN_SECONDS);
+        }
+
+        echo $output;
+    }
+}
+```
+
+With this way we're only storing the actual output in our cache, no posts, no metadata, no terms. Just the HTML.
+
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) and [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) for details.

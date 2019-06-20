@@ -6,18 +6,9 @@ abstract class Block implements Contracts\Bootable, Contracts\Composable
 {
     use Traits\CommonDeclaration,
         Traits\NestedDeclaration,
+        Traits\Bootable,
         Traits\Composable,
         Traits\Renderable;
-
-    /**
-     * Boot the block.
-     *
-     * @return void
-     */
-    public static function boot(): void
-    {
-        (new static)->compose();
-    }
 
     /**
      * Fields to be attached to the block.

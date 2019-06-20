@@ -13,6 +13,7 @@ Make sure all dependencies have been installed before moving on:
 
 * [PHP](http://php.net/manual/en/install.php) >= 7.1
 * [Composer](https://getcomposer.org/download/)
+* [Carbon Fields](https://docs.carbonfields.net/#/quickstart) >= 3.0
 
 ## Install
 

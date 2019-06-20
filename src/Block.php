@@ -123,7 +123,7 @@ abstract class Block implements Composable
      *
      * @throws Exception
      */
-    private static function capture(string $template, array $data): string
+    protected static function capture(string $template, array $data): string
     {
         extract($data, EXTR_SKIP);
 
@@ -167,7 +167,7 @@ abstract class Block implements Composable
      *
      * @return void
      */
-    final public function compose(): void
+    public function compose(): void
     {
         if (empty($this->name)) {
             throw BlockException::forEmptyName();
@@ -202,7 +202,7 @@ abstract class Block implements Composable
      *
      * @throws Exception
      */
-    final public function render(array $fields, array $attributes, array $blocks): void
+    public function render(array $fields, array $attributes, array $blocks): void
     {
         $globalVariables = compact('fields', 'attributes', 'blocks');
         $localVariables  = $this->with($fields);
@@ -217,7 +217,7 @@ abstract class Block implements Composable
      *
      * @return string
      */
-    final protected function template(): string
+    protected function template(): string
     {
         if (empty($this->template)) {
             throw BlockException::forEmptyTemplate();
@@ -236,7 +236,7 @@ abstract class Block implements Composable
      *
      * @return string
      */
-    final protected function path(): string
+    protected function path(): string
     {
         return dirname(__FILE__);
     }
@@ -248,7 +248,7 @@ abstract class Block implements Composable
      *
      * @return string
      */
-    final protected function uri(string $uri = ''): string
+    protected function uri(string $uri = ''): string
     {
         return str_replace(get_theme_file_path(), get_theme_file_uri(), home_url($uri));
     }

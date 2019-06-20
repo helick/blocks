@@ -31,26 +31,4 @@ abstract class Block implements Contracts\Bootable, Contracts\Composable
     {
         return [];
     }
-
-    /**
-     * Get the block's path.
-     *
-     * @return string
-     */
-    protected function path(): string
-    {
-        return dirname(__FILE__);
-    }
-
-    /**
-     * Get the block's uri.
-     *
-     * @param string $uri
-     *
-     * @return string
-     */
-    protected function uri(string $uri = ''): string
-    {
-        return str_replace(get_theme_file_path(), get_theme_file_uri(), home_url($uri));
-    }
 }

@@ -5,6 +5,13 @@ namespace Helick\Blocks\Traits;
 trait NestedDeclaration
 {
     /**
+     * This property allows you to restrict the block to be inserted to specific block types.
+     *
+     * @var null|string|string[]
+     */
+    protected $parent = null;
+
+    /**
      * Control the block's ability of containing nested blocks.
      *
      * @var bool

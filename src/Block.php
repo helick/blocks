@@ -4,10 +4,11 @@ namespace Helick\Blocks;
 
 use Carbon_Fields\Block as CarbonFieldsBlock;
 use Exception;
+use Helick\Blocks\Contracts\Bootable;
 use Helick\Blocks\Contracts\Composable;
 use Helick\Blocks\Exceptions\BlockException;
 
-abstract class Block implements Composable
+abstract class Block implements Bootable, Composable
 {
     /**
      * The block's display name.
@@ -111,6 +112,16 @@ abstract class Block implements Composable
      * @var string|string[]
      */
     protected $template = '';
+
+    /**
+     * Boot the block.
+     *
+     * @return void
+     */
+    public static function boot(): void
+    {
+        (new static)->compose();
+    }
 
     /**
      * Captures the output that is generated when a template is included.

@@ -136,14 +136,13 @@ final class ExampleBlock extends Block
         if (false === $output) {
             ob_start();
 
-            // If someting goes wrong during the render,
-            // we clear the output and re-throw an exception
-            // so we don't cache the actual error output.
             try {
                 parent::render($fields, $attributes, $blocks);
             } catch (Exception $e) {
+                // In case something goes wrong we clear the output buffer
                 ob_end_clean();
 
+                // Re-throw an exception so we don't cache the actual error output
                 throw $e;
             }
 

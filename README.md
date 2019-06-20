@@ -30,6 +30,7 @@ Within your theme declare your block, attach its fields, and provide data for yo
 ``` php
 use Carbon_Fields\Field;
 use Helick\Blocks\Block;
+use WP_Query;
 
 final class ExampleBlock extends Block
 {
@@ -65,9 +66,50 @@ final class ExampleBlock extends Block
             Field::make('text', 'heading', 'Heading'),
             Field::make('image', 'image', 'Image'),
             Field::make('rich_text', 'content', 'Content'),
+            Field::make('association', 'associations', 'Associations')
+                 ->set_types([
+                     [
+                         'type'      => 'post',
+                         'post_type' => 'post',
+                     ]
+                 ])
         ];
     }
+
+    /**
+     * Data to be passed to the rendered block.
+     *
+     * @param array $fields
+     *
+     * @return array
+     */
+    public function with(array $fields): array
+    {
+        return [
+            'associations' => $this->queryAssociations($fields['associations'])
+        ];
+    }
+
+    /**
+     * Query the associations.
+     *
+     * @param array $associations
+     *
+     * @return WP_Query
+     */
+    private function queryAssociations(array $associations): WP_Query
+    {
+        $associationIds = array_column($associations, 'id');
+        $associationIds = array_map('intval', $associationIds);
+
+        return new WP_Query([
+            'no_found_rows' => true,
+            'post__in'      => $associationIds,
+            'orderby'       => 'post__in',
+        ]);
+    }
 }
+
 ```
 
 Create your block template:
@@ -75,15 +117,30 @@ Create your block template:
 ``` php
 <div class="block">
     <div class="block__heading">
-        <h1><?php echo esc_html($fields['heading']); ?></h1>
+        <h1><?= esc_html($fields['heading']) ?></h1>
     </div>
     <div class="block__image">
-        <?php echo wp_get_attachment_image($fields['image'], 'full'); ?>
+        <?= wp_get_attachment_image($fields['image'], 'full') ?>
     </div>
     <div class="block__content">
-        <?php echo apply_filters('the_content', $fields['content']); ?>
+        <?= apply_filters('the_content', $fields['content']) ?>
     </div>
+    <?php if ($associations->have_posts()) : ?>
+        <div class="block__associations">
+            <ul class="block__associations-list">
+                <?php while ($associations->have_posts()) : $associations->the_post(); ?>
+                    <li class="block__associations-item">
+                        <a class="block__associations-link" href="<?= esc_url(get_the_permalink()) ?>">
+                            <?= esc_html(get_the_title()) ?>
+                        </a>
+                    </li>
+                <?php endwhile; ?>
+            </ul>
+        </div>
+        <?php wp_reset_postdata(); ?>
+    <?php endif; ?>
 </div>
+
 ```
 
 Finally, register your block in theme's `functions.php`:

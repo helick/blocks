@@ -90,7 +90,7 @@ Create your block template:
 Finally, register your block in theme's `functions.php`:
 
 ``` php
-add_filter('', function (array $blocks) {
+add_filter('helick_blocks', function (array $blocks) {
     $blocks[] = ExampleBlock::class;
 
     return $blocks;

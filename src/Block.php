@@ -2,15 +2,14 @@
 
 namespace Helick\Blocks;
 
-use Carbon_Fields\Block as CarbonFieldsBlock;
 use Helick\Blocks\Contracts\Bootable;
 use Helick\Blocks\Contracts\Composable;
-use Helick\Blocks\Exceptions\BlockException;
 
 abstract class Block implements Bootable, Composable
 {
     use Traits\CommonDeclaration,
         Traits\NestedDeclaration,
+        Traits\Composable,
         Traits\Renderable;
 
     /**
@@ -43,32 +42,6 @@ abstract class Block implements Bootable, Composable
     public function with(array $fields): array
     {
         return [];
-    }
-
-    /**
-     * Compose the block.
-     *
-     * @return void
-     */
-    public function compose(): void
-    {
-        if (empty($this->name)) {
-            throw BlockException::forEmptyName();
-        }
-
-        CarbonFieldsBlock::make($this->name)
-                         ->add_fields($this->fields())
-                         ->set_description($this->description)
-                         ->set_category($this->category)
-                         ->set_icon($this->icon)
-                         ->set_keywords($this->keywords)
-                         ->set_inner_blocks($this->nested)
-                         ->set_inner_blocks_position($this->nestedPosition)
-                         ->set_inner_blocks_template($this->nestedTemplates)
-                         ->set_inner_blocks_template_lock($this->nestedLock)
-                         ->set_allowed_inner_blocks($this->nestedBlocks)
-                         ->set_parent($this->parent)
-                         ->set_render_callback([$this, 'render']);
     }
 
     /**

@@ -24,18 +24,18 @@ abstract class Block implements Contracts\Bootable, Contracts\Composable
     protected $description = '';
 
     /**
-     * The block's category.
-     *
-     * @var string
-     */
-    protected $category = '';
-
-    /**
      * The block's icon.
      *
      * @var string
      */
     protected $icon = '';
+
+    /**
+     * The block's category.
+     *
+     * @var string
+     */
+    protected $category = '';
 
     /**
      * The block's keywords.

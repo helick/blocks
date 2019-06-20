@@ -103,6 +103,7 @@ The easiest and probably the best method is to cache the **complete HTML output*
 ``` php
 use Carbon_Fields\Field;
 use Helick\Blocks\Block;
+use Exception;
 
 final class ExampleBlock extends Block
 {

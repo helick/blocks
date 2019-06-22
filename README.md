@@ -17,7 +17,7 @@ Make sure all dependencies have been installed before moving on:
 
 ## Install
 
-Via Composer:
+Install via Composer:
 
 ``` bash
 $ composer require helick/blocks
@@ -146,11 +146,7 @@ Create your block template:
 Finally, register your block in theme's `functions.php`:
 
 ``` php
-add_filter('helick_blocks', function (array $blocks) {
-    $blocks[] = ExampleBlock::class;
-
-    return $blocks;
-});
+ExampleBlock::boot();
 ```
 
 ## Caching

@@ -9,9 +9,3 @@ Author URI:     https://helick.io/
 if (file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
     require_once $composer;
 }
-
-// Helpers
-require_once __DIR__ . '/src/helpers.php';
-
-// Bootstrap the plugin
-\Helick\Blocks\bootstrap(\Helick\Blocks\blocks());

@@ -11,6 +11,8 @@ trait Bootable
      */
     public static function boot(): void
     {
-        (new static)->compose();
+        add_action('carbon_fields_register_fields', function () {
+            (new static)->compose();
+        });
     }
 }

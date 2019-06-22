@@ -27,7 +27,7 @@ trait NestedDeclaration
      *
      * @var string
      */
-    protected $nestedPosition = '';
+    protected $nestedPosition = 'above';
 
     /**
      * This property allows you to set a template of blocks which every new instance of your block will contain.
@@ -47,7 +47,7 @@ trait NestedDeclaration
      *
      * @var string
      */
-    protected $nestedLock = '';
+    protected $nestedLock = null;
 
     /**
      * This property allows you to restrict the type of blocks that can be inserted in the nested blocks area.

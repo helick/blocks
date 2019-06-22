@@ -45,7 +45,7 @@ trait NestedDeclaration
      * - false – prevents locking from being applied to the nested blocks area even if a parent block contains locking.
      * - null – disables any locks applied to the area.
      *
-     * @var string
+     * @var null|false|string
      */
     protected $nestedLock = null;
 

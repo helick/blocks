@@ -5,7 +5,7 @@
 [![Software License][ico-license]](LICENSE.md)
 [![Quality Score][ico-code-quality]][link-code-quality]
 
-The plugin assists you in easily creating Gutenberg blocks with Carbon Fields.
+The package assists you in easily creating Gutenberg blocks with Carbon Fields.
 
 ## Requirements
 

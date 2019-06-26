@@ -1,7 +1,7 @@
 {
     "name": "helick/blocks",
-    "type": "wordpress-plugin",
-    "description": "The Helick blocks plugin",
+    "type": "library",
+    "description": "The Helick blocks",
     "keywords": [
         "helick",
         "wordpress",

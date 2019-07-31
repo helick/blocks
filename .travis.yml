@@ -8,7 +8,7 @@ cache:
 
 install:
     - composer global require hirak/prestissimo
-    - composer install --no-interaction
+    - composer install --no-interaction --no-plugins
 
 script:
     - composer lint

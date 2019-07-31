@@ -2,7 +2,9 @@
 
 namespace Helick\Blocks;
 
-abstract class Block implements Contracts\Bootable
+use Helick\Contracts\Bootable;
+
+abstract class Block implements Bootable
 {
     use Traits\NestedDeclaration,
         Traits\Bootable,

@@ -1,0 +1,20 @@
+language: php
+
+php: 7.3
+
+cache:
+    directories:
+        - $HOME/.composer/cache
+
+install:
+    - composer global require hirak/prestissimo
+    - composer install --no-interaction
+
+script:
+    - composer lint
+
+deploy:
+    provider: script
+    script: npx semantic-release
+    on:
+        branch: master

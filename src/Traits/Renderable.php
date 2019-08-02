@@ -13,13 +13,12 @@ trait Renderable
      *
      * @param string $template
      * @param array  $data
-     * @param string $blocks
      *
      * @return string
      *
      * @throws Exception
      */
-    protected static function capture(string $template, array $data, string $blocks): string
+    protected static function capture(string $template, array $data): string
     {
         extract($data, EXTR_SKIP);
 
@@ -52,12 +51,12 @@ trait Renderable
      */
     public function render(array $fields, array $attributes, string $blocks): void
     {
-        $globalVariables = compact('fields', 'attributes');
+        $globalVariables = compact('fields', 'attributes', 'blocks');
         $localVariables  = $this->with($fields);
 
         $data = array_merge($globalVariables, $localVariables);
 
-        echo static::capture($this->template(), $data, $blocks);
+        echo static::capture($this->template(), $data);
     }
 
     /**

@@ -13,12 +13,13 @@ trait Renderable
      *
      * @param string $template
      * @param array  $data
+     * @param string $blocks
      *
      * @return string
      *
      * @throws Exception
      */
-    protected static function capture(string $template, array $data): string
+    protected static function capture(string $template, array $data, string $blocks): string
     {
         extract($data, EXTR_SKIP);
 
@@ -41,22 +42,22 @@ trait Renderable
      * [!!] Global variables with the same key name as local variables will be
      * overwritten by the local variable.
      *
-     * @param array $fields
-     * @param array $attributes
-     * @param array $blocks
+     * @param array  $fields
+     * @param array  $attributes
+     * @param string $blocks
      *
      * @return void
      *
      * @throws Exception
      */
-    public function render(array $fields, array $attributes, array $blocks): void
+    public function render(array $fields, array $attributes, string $blocks): void
     {
-        $globalVariables = compact('fields', 'attributes', 'blocks');
+        $globalVariables = compact('fields', 'attributes');
         $localVariables  = $this->with($fields);
 
         $data = array_merge($globalVariables, $localVariables);
 
-        echo static::capture($this->template(), $data);
+        echo static::capture($this->template(), $data, $blocks);
     }
 
     /**

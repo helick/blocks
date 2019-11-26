@@ -30,7 +30,7 @@ abstract class Block implements Bootable
      *
      * @var string
      */
-    protected $icon = '';
+    protected $icon = 'star-empty';
 
     /**
      * The block's category.
